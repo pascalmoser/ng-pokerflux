@@ -1,0 +1,22 @@
+@media all{
+	.md-fab.lifx-submit .material-icons {
+		mix-blend-mode: difference;
+		color: #607d8b;
+		line-height: 56px;
+	}
+	.progress-bottom-right {
+		position: absolute;
+		bottom: 19px;
+		right: 21px;
+	}
+	md-card md-card-title md-card-title-media .md-media-sm {
+		width: 70px;
+		height: 70px;
+	}
+	md-card-title-text md-switch .md-container {
+		margin-right: 20px;
+	}
+	md-card-title-text md-switch .md-headline {
+		display: block;
+	}
+}
