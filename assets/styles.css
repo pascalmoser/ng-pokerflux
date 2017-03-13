@@ -1,4 +1,60 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900');
+
 @media all{
+
+	body {
+		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#8341d6+0,5614ac+100 */
+		background: #8341d6; /* Old browsers */
+		background: -moz-linear-gradient(top, #8341d6 0%, #5614ac 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(top, #8341d6 0%,#5614ac 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to bottom, #8341d6 0%,#5614ac 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8341d6', endColorstr='#5614ac',GradientType=0 ); /* IE6-9 */
+
+		color: #fff;
+		font-family: 'Lato', sans-serif;
+
+	}
+
+	body.pt-timeout {
+		background: #ff0018;
+	}
+
+	body.pt-pause {
+		background: #00B229;
+	}
+
+	h1 {
+
+		font-size: 3vw;
+		font-weight: 900;
+		text-align: center;
+	}
+
+	h1 small {
+		font-size: 3vw;
+		font-weight: 300;
+	}
+
+	.pt-timer {
+		font-size: 20vw;
+		font-weight: 100;
+		text-align: center;
+		margin: 7vw 0;
+	}
+
+	.pt-blind-wrapper {
+		position: relative;
+		font-weight: 900;
+		font-size: 3vw;
+		text-align: center;
+	}
+
+	.pt-blind-sep {
+		text-transform: uppercase;
+		font-weight: 300;
+		padding: 0 1vw;
+	}
+
 	.md-fab.lifx-submit .material-icons {
 		mix-blend-mode: difference;
 		color: #607d8b;

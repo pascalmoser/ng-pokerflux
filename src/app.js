@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-    .module('LifxMaterial',['ngMaterial', 'ngStorage'])
+    .module('Ptimer',['ngMaterial', 'ngStorage', 'timer'])
     .config(function($mdThemingProvider) {
         $mdThemingProvider.theme('default')
         .primaryPalette('blue-grey')
@@ -13,7 +13,7 @@
 
     function AppCtrl ( $scope, $http, $mdToast, $localStorage ) {
 
-        console.log(hsvToRgb(260,100,100))
+        $scope.time = 15*60;
 
         $scope.color={
             red: 255,
