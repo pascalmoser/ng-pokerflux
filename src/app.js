@@ -14,32 +14,37 @@
     function AppCtrl ( $scope, $http, $mdToast, $localStorage ) {
 
         $scope.timer = {
-            state: 'pause', // play, pause, timeout
-            breakTime: false
+            on: false
         };
 
         $scope.gameSchedule = [
-            { smallblind:10, bigblind:20, playtime:10, breaktime:9 },
-            { smallblind:20, bigblind:40, playtime:8, breaktime:7 },
-            { smallblind:50, bigblind:100, playtime:6, breaktime:5 },
-            { smallblind:100, bigblind:200, playtime:4, breaktime:3 },
-            { smallblind:200, bigblind:400, playtime:2, breaktime:1 }
+            { smallblind:10, bigblind:20, playtime:30*60, breaktime:15*60 },
+            { smallblind:20, bigblind:40, playtime:30*60, breaktime:15*60 },
+            { smallblind:50, bigblind:100, playtime:20*60, breaktime:10*60 },
+            { smallblind:100, bigblind:200, playtime:20*60, breaktime:10*60 },
+            { smallblind:200, bigblind:400, playtime:20*60, breaktime:10*60 },
+            { smallblind:400, bigblind:800, playtime:10*60, breaktime:5*60 },
+            { smallblind:800, bigblind:1600, playtime:10*60, breaktime:5*60 }
         ];
 
         $scope.game = {
+            state: 'pause', // play, pause, timeout
+            smallBlind: $scope.gameSchedule[0].smallblind,
+            bigBlind: $scope.gameSchedule[0].bigblind,
             playTime: $scope.gameSchedule[0].playtime,
             breakTime: 0,
-            bigBlind: 0,
-            smallBlind: 0,
-            scheduleIndex: 0
+            scheduleIndex: 0,
+            onBreakTime: false
         };
 
         $scope.toggleTimer = function(forcePlay) {
-            if($scope.timer.state !== 'play' || forcePlay === true) {
-                $scope.timer.state = 'play';
+            if($scope.timer.on !== true || forcePlay === true) {
+                $scope.game.state = 'play';
+                $scope.timer.on = true;
                 $scope.playTimer();
             } else {
-                $scope.timer.state = 'pause';
+                $scope.game.state = 'pause';
+                $scope.timer.on = false;
                 $scope.pauseTimer();
             }
         };
@@ -47,20 +52,25 @@
         $scope.playTimer = function() {
             if($scope.game.scheduleIndex === 0) {
                 $scope.scheduler();
+            } else {
+                console.log('play');
+                $scope.submitLight();
+                $scope.$broadcast('timer-start');
             }
-            $scope.$broadcast('timer-start');
         };
 
         $scope.pauseTimer = function() {
+            console.log('pause');
+            $scope.submitLight();
             $scope.$broadcast('timer-stop');
         };
 
         $scope.scheduler = function() {
-            if($scope.game.breakTime > 0 && !$scope.timer.breaktime) {
+            if($scope.game.breakTime > 0 && !$scope.game.onBreakTime) {
                 console.log('break');
                 $scope.breakTime();
             } else {
-                $scope.timer.breaktime = false;
+                $scope.game.onBreakTime = false;
                 $scope.game.smallBlind = $scope.gameSchedule[$scope.game.scheduleIndex].smallblind;
                 $scope.game.bigBlind = $scope.gameSchedule[$scope.game.scheduleIndex].bigblind;
                 $scope.game.breakTime = $scope.gameSchedule[$scope.game.scheduleIndex].breaktime;
@@ -77,11 +87,13 @@
         });
 
         $scope.timeOut = function() {
-            console.log('timeout');
-            if($scope.timer.state !== 'timeout') {
-                $scope.timer.state = 'timeout';
+            if($scope.game.state !== 'timeout') {
+                $scope.game.state = 'timeout';
                 $scope.$broadcast('timer-set-countdown-seconds', 5);
                 $scope.$broadcast('timer-start');
+
+                console.log('timeout');
+                $scope.submitLight();
             } else {
                 $scope.scheduler();
             }
@@ -89,47 +101,52 @@
 
         $scope.breakTime = function() {
             $scope.$broadcast('timer-set-countdown-seconds', $scope.game.breakTime);
-            $scope.timer.state = 'pause';
-            $scope.timer.breaktime = true;
+            $scope.game.state = 'pause';
+            $scope.game.onBreakTime = true;
             $scope.$broadcast('timer-start');
+
+            console.log('breaktime');
+            $scope.submitLight();
         };
 
-        $scope.pauseTimer = function() {
-            $scope.$broadcast('timer-stop');
-            $scope.timerRunning = false;
+        $scope.light = {
+            apitoken: '',
+            playClor: 'rgb:42,222,90',
+            pauseColor: 'rgb:131,65,214',
+            timeoutColor: 'rgb:255,0,24',
+            timeoutEffects: {
+                period:1,
+                cycles:4,
+                type:'pulse'
+            }
         };
 
+        $scope.submitLight = function() {
+            var color = '';
+            var url = '';
+            var data = '';
+            var method = '';
+            if($scope.game.state === 'play') {
+                color = $scope.light.playClor;
+                url = 'state';
+                data = '{"color":"'+color+'"}';
+                method = 'PUT';
+            } else if ($scope.game.state === 'pause') {
+                color = $scope.light.pauseColor;
+                url = 'state';
+                data = '{"color":"'+color+'"}';
+                method = 'PUT';
+            } else if ($scope.game.state === 'timeout') {
+                color = $scope.light.timeoutColor;
+                url = 'effects/pulse';
+                data = '{"period":"'+$scope.light.timeoutEffects.period+'", "cycles":"'+$scope.light.timeoutEffects.cycles+'", "color":"'+color+'"}';
+                method = 'POST';
+            }
 
-        $scope.color={
-            red: 255,
-            green: 255,
-            blue: 255
-        }
-        $scope.effect={
-            period:1,
-            cycles:4,
-            type:'pulse'
-        }
-        $scope.$storage = $localStorage;
-        $scope.effectsOn = false;
-        $scope.apitoken=$scope.$storage.api;
-        $scope.submitProgress=false;
-
-        getBulbs();
-        $scope.apichange = function() {
-            getBulbs();
-        }
-
-        $scope.submitLight=function() {
-            $scope.submitProgress=true;
-            var color='rgb:'+$scope.color.red+','+$scope.color.green+','+$scope.color.blue;
-            var url= !$scope.effectsOn ? 'state' : 'effects/' + $scope.effect.type;
-            var data= !$scope.effectsOn ? '{"color":"'+color+'"}' : '{"period":"'+$scope.effect.period+'", "cycles":"'+$scope.effect.cycles+'", "color":"'+color+'"}';
-            var method= !$scope.effectsOn ? 'PUT' : 'POST';
             $http({
                 method: method,
                 url: "https://api.lifx.com/v1/lights/all/"+url,
-                headers: {'Authorization': 'Bearer '+$scope.apitoken, 'Content-Type': 'application/json'},
+                headers: {'Authorization': 'Bearer '+$scope.light.apitoken, 'Content-Type': 'application/json'},
                 data: data
             }).then(
                 function(response){
@@ -141,14 +158,14 @@
                     }
                     showCustomToast( $mdToast, toastMsg );
                     $scope.submitProgress=false;
-                    getBulbs();
                 },
                 function(response){
                     showCustomToast( $mdToast, "Status " + response.status + " " + response.statusText + " (" + response.data.error + ")" );
                     $scope.submitProgress=false;
                 }
             );
-        }
+        };
+
         function showCustomToast( $mdToast, toastMsg ) {
             $mdToast.show(
                 $mdToast.simple()
@@ -157,36 +174,6 @@
                 .textContent(toastMsg)
                 .position('bottom right')
                 .hideDelay(6000)
-            );
-        };
-        function getBulbs(){
-            $scope.$storage.api = $scope.apitoken;
-
-            $http({
-                method: 'GET',
-                url: "https://api.lifx.com/v1/lights/all",
-                headers: {'Authorization': 'Bearer '+$scope.apitoken, 'Content-Type': 'application/json'}
-            }).then(
-                function(response){
-                    console.log(response);
-                    if(response.status == 200) {
-                        $scope.bulbs = [];
-                        angular.forEach(response.data, function(value, key) {
-                            console.log(value);
-                            $scope.bulbs.push({
-                                name: value.label,
-                                color: hsvToRgb(value.color.hue, value.color.saturation*100, value.brightness*100),
-                                location: value.location.name,
-                                group: value.group.name
-                            });
-                        });
-                        console.log($scope.bulbs);
-                    }
-                },
-                function(response){
-                    showCustomToast( $mdToast, "Status " + response.status + " " + response.statusText + " (" + response.data.error + ")" );
-                    $scope.submitProgress=false;
-                }
             );
         }
     }

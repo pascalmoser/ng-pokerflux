@@ -90,6 +90,10 @@
 		padding: 0 1vw;
 	}
 
+	.pt-gamestate {
+		text-transform: uppercase;
+	}
+
 	.md-fab.lifx-submit .material-icons {
 		mix-blend-mode: difference;
 		color: #607d8b;

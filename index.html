@@ -9,17 +9,11 @@
     </head>
     <body>
         <div ng-controller="AppCtrl" ng-cloak="" ng-app="Ptimer" class="layout-fill ng-scope layout-column">
-            <div class="pt-fullwrapper pt-{{timer.state}}">
-                <p>
-                    game: {{game}},
-                    <br/>
-                    timer: {{timer}}
-                    <br/>
-                </p>
+            <div class="pt-fullwrapper pt-{{game.state}}">
                 <md-toolbar class="pt-toolbar">
                     <div class="md-toolbar-tools" layout="row" layout-align="end start">
                         <md-button ng-model="mlPlay" ng-click="toggleTimer()" class="md-icon-button" aria-label="Play/Pause">
-                            <i class="material-icons">{{timer.state === 'play' ? '&#xE034;' : '&#xE037;'}}</i>
+                            <i class="material-icons">{{timer.on === true ? '&#xE034;' : '&#xE037;'}}</i>
                         </md-button>
                         <md-button class="md-icon-button" aria-label="More">
                             <i class="material-icons">&#xE5D4;</i>
@@ -33,7 +27,14 @@
                 </div>
                 <div class="pt-blind-wrapper">
                     <span>{{game.smallBlind}}</span> <span class="pt-blind-sep">blinds</span> <span>{{game.bigBlind}}</span>
+                    <div class="pt-gamestate" ng-if="timer.state !== 'play'">{{timer.state}}</div>
                 </div>
+                <p class="pt-debug">
+                    game: {{game}},
+                    <br/>
+                    timer: {{timer}}
+                    <br/>
+                </p>
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
