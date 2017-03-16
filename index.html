@@ -8,15 +8,33 @@
         <link rel="stylesheet" href="assets/styles.css">
     </head>
     <body>
-        <div ng-controller="AppCtrl" ng-cloak="" ng-app="Ptimer" class="inset layout-fill ng-scope layout-column">
-            <h1><small>PROTO</small>PTIMER</h1>
-            <div class="pt-timer">
-                <timer countdown="time" interval="1000">{{minutes}}:{{seconds}}</timer>
-            </div>
-            <div class="pt-blind-wrapper">
-                100 <span class="pt-blind-sep">blinds</span> 200
-            </div>
+        <div ng-controller="AppCtrl" ng-cloak="" ng-app="Ptimer" class="layout-fill ng-scope layout-column">
+            <div class="pt-fullwrapper pt-{{timer.state}}">
+                <p>
+                    game: {{game}},
+                    <br/>
+                    timer: {{timer}}
+                    <br/>
+                </p>
+                <md-toolbar class="pt-toolbar">
+                    <div class="md-toolbar-tools" layout="row" layout-align="end start">
+                        <md-button ng-model="mlPlay" ng-click="toggleTimer()" class="md-icon-button" aria-label="Play/Pause">
+                            <i class="material-icons">{{timer.state === 'play' ? '&#xE034;' : '&#xE037;'}}</i>
+                        </md-button>
+                        <md-button class="md-icon-button" aria-label="More">
+                            <i class="material-icons">&#xE5D4;</i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
 
+                <h1><small>PROTO</small>PTIMER</h1>
+                <div class="pt-timer">
+                    <timer autostart="false" countdown="game.playTime" interval="1000"><span class="pt-minutes">{{mminutes}}</span><span class="pt-time-sep">:</span><span class="pt-seconds">{{sseconds}}</span></timer>
+                </div>
+                <div class="pt-blind-wrapper">
+                    <span>{{game.smallBlind}}</span> <span class="pt-blind-sep">blinds</span> <span>{{game.bigBlind}}</span>
+                </div>
+            </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-animate.min.js"></script>
