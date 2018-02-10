@@ -110,7 +110,7 @@
         };
 
         $scope.light = {
-            apitoken: '',
+            apitoken: 'c9ca88d17f51936c83778c1fbdfea7066248becac5f64c19fe6a598465730da6',
             playClor: 'rgb:42,222,90',
             pauseColor: 'rgb:131,65,214',
             timeoutColor: 'rgb:255,0,24',
