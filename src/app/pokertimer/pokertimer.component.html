@@ -1,0 +1,29 @@
+<div class="pt-fullwrapper pt-{{game.state}}">
+    <h1>
+        <small>POKER</small>FLUX
+    </h1>
+
+    <div class="pt-timer">
+        <span class="pt-minutes">{{minutesDisplay}}</span>
+        <span class="pt-time-sep">:</span>
+        <span class="pt-seconds">{{secondsDisplay}}</span>
+    </div>
+
+    <div class="pt-blind-wrapper">
+        <span>{{game.smallBlind}}</span> <span class="pt-blind-sep">blinds</span> <span>{{game.bigBlind}}</span>
+        <div class="pt-gamestate" ng-if="game.state !== 'play'">{{game.state}}</div>
+    </div>
+
+    <p class="pt-debug">
+        game: {{game.state}}
+        <br/>
+        ticks: {{ticks}}
+        <br/>
+        <a href="#" (click)="toggleTimer()">Start</a>
+        <br/>
+        <a href="#" (click)="pauseTimer()">Pause</a>
+        <br/>
+        <a href="#" (click)="stopTimer()">Stop</a>
+    </p>
+
+</div>
