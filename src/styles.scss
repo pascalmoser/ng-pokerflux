@@ -8,6 +8,10 @@
         font-family: 'Lato', sans-serif;
     }
 
+    .spacer {
+        flex: 1 1 auto;
+    }
+
     .hidden {
         display: none;
     }
@@ -18,15 +22,17 @@
         width: 100vw;
     }
 
-    .pt-fullwrapper.pt-play {
-        background: #025F1A; /* Old browsers */
-        background: -moz-linear-gradient(top, #21A344 0%, #025F1A 100%); /* FF3.6-15 */
-        background: -webkit-linear-gradient(top, #21A344 0%,#025F1A 100%); /* Chrome10-25,Safari5.1-6 */
-        background: linear-gradient(to bottom, #21A344 0%,#025F1A 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#21A344', endColorstr='#025F1A',GradientType=0 ); /* IE6-9 */
+    .transparent {
+        background: transparent;
     }
 
-    .pt-fullwrapper.pt-pause {
+    .btn-white {
+        &, i {
+            color: white;
+        }
+    }
+
+    .pt-fullwrapper {
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#8341d6+0,5614ac+100 */
         background: #8341d6; /* Old browsers */
         background: -moz-linear-gradient(top, #8341d6 0%, #5614ac 100%); /* FF3.6-15 */
@@ -34,6 +40,14 @@
         background: linear-gradient(to bottom, #8341d6 0%,#5614ac 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8341d6', endColorstr='#5614ac',GradientType=0 ); /* IE6-9 */
 
+    }
+
+    .pt-fullwrapper.pt-play {
+        background: #025F1A; /* Old browsers */
+        background: -moz-linear-gradient(top, #21A344 0%, #025F1A 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, #21A344 0%,#025F1A 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, #21A344 0%,#025F1A 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#21A344', endColorstr='#025F1A',GradientType=0 ); /* IE6-9 */
     }
 
     .pt-fullwrapper.pt-timeout {

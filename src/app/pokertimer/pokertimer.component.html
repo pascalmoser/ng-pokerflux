@@ -1,12 +1,25 @@
 <div class="pt-fullwrapper pt-{{game.state}}">
+
+    <mat-toolbar class="transparent layout-column">
+        <span class="spacer"></span>
+            <button mat-icon-button (click)="toggleTimer()" class="btn-white" aria-label="Play/Pause">
+                <i class="material-icons">{{timerState.on === true ? '&#xE034;' : '&#xE037;'}}</i>
+            </button>
+            <button mat-icon-button class="btn-white" aria-label="More">
+                <i class="material-icons">&#xE5D4;</i>
+            </button>
+
+    </mat-toolbar>
+
     <h1>
-        <small>POKER</small>FLUX
+        <small>POKER</small>
+        FLUX
     </h1>
 
     <div class="pt-timer">
-        <span class="pt-minutes">{{minutesDisplay}}</span>
+        <span class="pt-minutes">{{pad(minutesDisplay)}}</span>
         <span class="pt-time-sep">:</span>
-        <span class="pt-seconds">{{secondsDisplay}}</span>
+        <span class="pt-seconds">{{pad(secondsDisplay)}}</span>
     </div>
 
     <div class="pt-blind-wrapper">
