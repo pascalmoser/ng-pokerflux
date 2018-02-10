@@ -21,15 +21,15 @@
                     </div>
                 </md-toolbar>
 
-                <h1><small>PROTO</small>PTIMER</h1>
+                <h1><small>POKER</small>FLUX</h1>
                 <div class="pt-timer">
                     <timer autostart="false" countdown="game.playTime" interval="1000"><span class="pt-minutes">{{mminutes}}</span><span class="pt-time-sep">:</span><span class="pt-seconds">{{sseconds}}</span></timer>
                 </div>
                 <div class="pt-blind-wrapper">
                     <span>{{game.smallBlind}}</span> <span class="pt-blind-sep">blinds</span> <span>{{game.bigBlind}}</span>
-                    <div class="pt-gamestate" ng-if="timer.state !== 'play'">{{timer.state}}</div>
+                    <div class="pt-gamestate" ng-if="game.state !== 'play'">{{game.state}}</div>
                 </div>
-                <p class="pt-debug">
+                <p class="pt-debug hidden">
                     game: {{game}},
                     <br/>
                     timer: {{timer}}

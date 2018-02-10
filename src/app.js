@@ -18,13 +18,14 @@
         };
 
         $scope.gameSchedule = [
-            { smallblind:10, bigblind:20, playtime:30*60, breaktime:15*60 },
-            { smallblind:20, bigblind:40, playtime:30*60, breaktime:15*60 },
-            { smallblind:50, bigblind:100, playtime:20*60, breaktime:10*60 },
-            { smallblind:100, bigblind:200, playtime:20*60, breaktime:10*60 },
-            { smallblind:200, bigblind:400, playtime:20*60, breaktime:10*60 },
-            { smallblind:400, bigblind:800, playtime:10*60, breaktime:5*60 },
-            { smallblind:800, bigblind:1600, playtime:10*60, breaktime:5*60 }
+            //{ smallblind:10, bigblind:20, playtime:30*60, breaktime:5*60 },
+            //{ smallblind:20, bigblind:40, playtime:30*60, breaktime:5*60 },
+            { smallblind:50, bigblind:100, playtime:2*60, breaktime:5*60 },
+            { smallblind:100, bigblind:200, playtime:45*60, breaktime:5*60 },
+            { smallblind:200, bigblind:400, playtime:45*60, breaktime:5*60 },
+            { smallblind:400, bigblind:800, playtime:45*60, breaktime:5*60 },
+            { smallblind:800, bigblind:1600, playtime:60*60, breaktime:5*60 },
+            { smallblind:1600, bigblind:3200, playtime:60*60, breaktime:0 }
         ];
 
         $scope.game = {
