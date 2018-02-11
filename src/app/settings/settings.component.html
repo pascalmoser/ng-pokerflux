@@ -30,12 +30,25 @@
 
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <h3>API Token</h3>
+                        <h3>API Token / Bulbs</h3>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
 
                 <mat-form-field class="mat-full-width">
                     <input matInput placeholder="LIFX API Token">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-select placeholder="Bulbs" [formControl]="bulbs" multiple>
+                        <mat-select-trigger>
+                            {{bulbs.value ? bulbs.value[0] : ''}}
+                            <span *ngIf="bulbs.value?.length > 1" class="example-additional-selection">
+                                        (+{{bulbs.value.length - 1}} others)
+                                    </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let bulb of bulbList" [value]="bulb">{{bulb}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
             </mat-expansion-panel>
@@ -56,21 +69,6 @@
 
                         <mat-form-field class="mat-full-width">
                             <input matInput type="color">
-                        </mat-form-field>
-
-                        <br/>
-
-                        <mat-form-field>
-                            <mat-select placeholder="Bulbs" [formControl]="bulbs" multiple>
-                                <mat-select-trigger>
-                                    {{bulbs.value ? bulbs.value[0] : ''}}
-                                    <span *ngIf="bulbs.value?.length > 1" class="example-additional-selection">
-                                        (+{{bulbs.value.length - 1}} others)
-                                    </span>
-                                </mat-select-trigger>
-                                <mat-option *ngFor="let bulb of bulbList" [value]="bulb">{{bulb}}
-                                </mat-option>
-                            </mat-select>
                         </mat-form-field>
 
                     </mat-radio-button>
