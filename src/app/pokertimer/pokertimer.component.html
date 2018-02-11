@@ -2,12 +2,23 @@
 
     <mat-toolbar class="transparent layout-column">
         <span class="spacer"></span>
-            <button mat-icon-button (click)="toggleTimer()" class="btn-white" aria-label="Play/Pause">
-                <i class="material-icons">{{timerState.on === true ? '&#xE034;' : '&#xE037;'}}</i>
-            </button>
-            <button mat-icon-button class="btn-white" aria-label="More">
-                <i class="material-icons">&#xE5D4;</i>
-            </button>
+
+        <button mat-icon-button (click)="toggleTimer()" class="btn-white" aria-label="Play/Pause">
+            <mat-icon>{{timerState.on === true ? 'pause' : 'play_arrow'}}</mat-icon>
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="btn-white" aria-label="More">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <a href="/settings" mat-menu-item>
+                <mat-icon>settings</mat-icon>
+                <span>Settings</span>
+            </a>
+            <a href="/" mat-menu-item>
+                <mat-icon>info</mat-icon>
+                <span>About</span>
+            </a>
+        </mat-menu>
 
     </mat-toolbar>
 

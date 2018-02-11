@@ -2,7 +2,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
-import {MatButtonModule, MatToolbarModule} from '@angular/material';
+import {MatButtonModule, MatToolbarModule, MatMenuModule, MatIconModule, MatCardModule, MatExpansionModule } from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {AppComponent} from './app.component';
 import {AboutComponent} from './about/about.component';
@@ -19,7 +20,12 @@ import {PokertimerComponent} from './pokertimer/pokertimer.component';
         BrowserModule,
         AppRoutingModule,
         MatButtonModule,
-        MatToolbarModule
+        MatToolbarModule,
+        MatMenuModule,
+        MatIconModule,
+        BrowserAnimationsModule,
+        MatCardModule,
+        MatExpansionModule
     ],
     providers: [],
     bootstrap: [AppComponent]
