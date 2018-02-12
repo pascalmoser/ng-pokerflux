@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {HttpClientModule} from '@angular/common/http';
 
 import {AppRoutingModule} from './app-routing.module';
 
@@ -26,6 +27,8 @@ import {AboutComponent} from './about/about.component';
 import {PokertimerComponent} from './pokertimer/pokertimer.component';
 import {SettingsComponent} from './settings/settings.component';
 
+import {ApilifxService} from "./apilifx.service";
+
 
 @NgModule({
     declarations: [
@@ -38,6 +41,7 @@ import {SettingsComponent} from './settings/settings.component';
         FormsModule,
         ReactiveFormsModule,
         BrowserModule,
+        HttpClientModule,
         AppRoutingModule,
         MatButtonModule,
         MatToolbarModule,
@@ -52,7 +56,7 @@ import {SettingsComponent} from './settings/settings.component';
         MatOptionModule,
         MatSelectModule
     ],
-    providers: [],
+    providers: [ApilifxService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

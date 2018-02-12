@@ -35,19 +35,13 @@
                 </mat-expansion-panel-header>
 
                 <mat-form-field class="mat-full-width">
-                    <input matInput placeholder="LIFX API Token">
+                    <input matInput placeholder="LIFX API Token" [formControl]="apiToken">
                 </mat-form-field>
 
-                <mat-form-field>
+                <mat-form-field class="mat-full-width">
                     <mat-select placeholder="Bulbs" [formControl]="bulbs" multiple>
-                        <mat-select-trigger>
-                            {{bulbs.value ? bulbs.value[0] : ''}}
-                            <span *ngIf="bulbs.value?.length > 1" class="example-additional-selection">
-                                        (+{{bulbs.value.length - 1}} others)
-                                    </span>
-                        </mat-select-trigger>
-                        <mat-option *ngFor="let bulb of bulbList" [value]="bulb">{{bulb}}
-                        </mat-option>
+                        <mat-option selecet value="all">All</mat-option>
+                        <mat-option *ngFor="let bulb of bulbList" [value]="bulb.id">{{bulb.label+' ('+bulb.group.name+')'}}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
