@@ -9,22 +9,51 @@ import {ApilifxService} from "../apilifx.service";
 })
 export class SettingsComponent implements OnInit {
 
-    apiToken = new FormControl(localStorage.getItem('apiToken'), {
+    apiTokenControl = new FormControl(localStorage.getItem('apiToken'), {
         updateOn: 'blur'
     });
 
-    bulbs = new FormControl();
-
+    bulbsControl = new FormControl();
     bulbList = [];
 
+    playSceneControl = new FormControl();
+    sceneList = [];
+
+    playColorControl = new FormControl();
+
     constructor(private _apilfx: ApilifxService) {
-        this.apiToken.valueChanges.subscribe(
+        this.apiTokenControl.valueChanges.subscribe(
             (value: string) => {
                 _apilfx.setApiToken(value);
                 this.getBulbs();
+                this.getScenes();
+            }
+        );
+        this.bulbsControl.valueChanges.subscribe(
+            (value: string) => {
+                _apilfx.setSelectedBulbs(value);
+            }
+        );
+        this.playSceneControl.valueChanges.subscribe(
+            (value: string) => {
+                this.setPlayScene(value)
+            }
+        );
+        this.playColorControl.valueChanges.subscribe(
+            (value: string) => {
+                this.setPlayColor(value);
             }
         );
         this.getBulbs();
+        this.getScenes();
+    }
+
+    setPlayScene(value) {
+        this._apilfx.setPlayScene(value);
+    }
+
+    setPlayColor(value) {
+        this._apilfx.setPlayColor(value);
     }
 
     getBulbs() {
@@ -35,6 +64,18 @@ export class SettingsComponent implements OnInit {
             );
     }
 
+    getScenes() {
+        this._apilfx.getScenes()
+            .subscribe(
+                scenes => console.log(this.sceneList = scenes),
+                error => console.log(error.error.error)
+            );
+    }
+
+
+    sendPlayState() {
+        this._apilfx.sendPlayState().subscribe();
+    }
 
     ngOnInit() {
 

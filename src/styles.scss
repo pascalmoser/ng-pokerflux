@@ -13,6 +13,7 @@ $custom-typography: mat-typography-config(
 
     h1, h2, h3, h4 {
         font-weight: 600;
+        padding: 5px 0;
     }
 
     body {
@@ -78,7 +79,7 @@ $custom-typography: mat-typography-config(
 
     .pt-fullwrapper {
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#8341d6+0,5614ac+100 */
-        background: #8341d6; /* Old browsers */
+        background: #5614ac; /* Old browsers */
         background: -moz-linear-gradient(top, #8341d6 0%, #5614ac 100%); /* FF3.6-15 */
         background: -webkit-linear-gradient(top, #8341d6 0%,#5614ac 100%); /* Chrome10-25,Safari5.1-6 */
         background: linear-gradient(to bottom, #8341d6 0%,#5614ac 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
