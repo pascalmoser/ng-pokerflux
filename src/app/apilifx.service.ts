@@ -14,8 +14,19 @@ export class ApilifxService {
     };
     private selectedBulbs = [];
     private playLight = {
-        'scene': null,
-        'color': null
+        'state': localStorage.getItem('playState') ? localStorage.getItem('playState') : 'color',
+        'scene': localStorage.getItem('playScene'),
+        'color': localStorage.getItem('playColor') ? localStorage.getItem('playColor') : '#21A344'
+    };
+    private pauseLight = {
+        'state': localStorage.getItem('pauseState') ? localStorage.getItem('pauseState') : 'color',
+        'scene': localStorage.getItem('pauseScene'),
+        'color': localStorage.getItem('pauseColor') ? localStorage.getItem('pauseColor') : '#8341d6'
+    };
+    private timeoutLight = {
+        'state': localStorage.getItem('timeoutState') ? localStorage.getItem('pauseState') : 'color',
+        'scene': localStorage.getItem('timeoutScene'),
+        'color': localStorage.getItem('timeoutColor') ? localStorage.getItem('pauseColor') : '#ff0018'
     };
 
     constructor(private http: HttpClient) {
@@ -31,18 +42,56 @@ export class ApilifxService {
         localStorage.setItem('apiToken', apiToken);
     }
 
+    getApiToken() {
+        return this.apiToken;
+    }
+
     setSelectedBulbs(bulbs) {
         this.selectedBulbs = bulbs;
     }
 
-    setPlayScene(scene) {
-        this.playLight.scene = scene;
-        this.playLight.color = null;
+    setPlayLight(form) {
+        console.log(form);
+        console.log(form.scene);
+        this.playLight.state = form.scene;
+        this.playLight.color = form.color;
+        this.playLight.scene = form.scene;
+
+        localStorage.setItem('playState', form.state);
+        localStorage.setItem('playColor', form.color);
+        localStorage.setItem('playScene', form.scene);
     }
 
-    setPlayColor(color) {
-        this.playLight.color = color;
-        this.playLight.scene = null;
+    getPlayLight() {
+        return this.playLight;
+    }
+
+    setPauseLight(form) {
+        this.pauseLight.state = form.scene;
+        this.pauseLight.color = form.color;
+        this.pauseLight.scene = form.scene;
+
+        localStorage.setItem('pauseState', form.state);
+        localStorage.setItem('pauseColor', form.color);
+        localStorage.setItem('pauseScene', form.scene);
+    }
+
+    getPauseLight() {
+        return this.pauseLight;
+    }
+
+    setTimeoutLight(form) {
+        this.timeoutLight.state = form.scene;
+        this.timeoutLight.color = form.color;
+        this.timeoutLight.scene = form.scene;
+
+        localStorage.setItem('timeoutState', form.state);
+        localStorage.setItem('timeoutColor', form.color);
+        localStorage.setItem('timeoutScene', form.scene);
+    }
+
+    getTimeoutLight() {
+        return this.timeoutLight;
     }
 
     getBulbs(): any {
@@ -63,7 +112,7 @@ export class ApilifxService {
         let url: string;
         let data = {};
 
-        if(this.playLight.scene) {
+        if(this.playLight.state == 'scene') {
             url = 'https://api.lifx.com/v1/scenes/scene_id:'+this.playLight.scene+'/activate';
             data = {};
         } else {
@@ -71,12 +120,46 @@ export class ApilifxService {
             data = {'color':this.playLight.color}
         }
 
+        return this.sendPut(url, data);
+
+    }
+
+    sendPauseState(): any {
+        let url: string;
+        let data = {};
+
+        if(this.pauseLight.state == 'scene') {
+            url = 'https://api.lifx.com/v1/scenes/scene_id:'+this.pauseLight.scene+'/activate';
+            data = {};
+        } else {
+            url = 'https://api.lifx.com/v1/lights/all/state';
+            data = {'color':this.pauseLight.color}
+        }
+
+        return this.sendPut(url, data);
+    }
+
+    sendTimeoutState(): any {
+        let url: string;
+        let data = {};
+
+        if(this.timeoutLight.state == 'scene') {
+            url = 'https://api.lifx.com/v1/scenes/scene_id:'+this.timeoutLight.scene+'/activate';
+            data = {};
+        } else {
+            url = 'https://api.lifx.com/v1/lights/all/state';
+            data = {'color':this.timeoutLight.color}
+        }
+
+        return this.sendPut(url, data);
+    }
+
+    sendPut(url, data):any {
         return this.http.put(
             url,
             JSON.stringify(data),
             this.httpOptions
         );
-
     }
 
 }

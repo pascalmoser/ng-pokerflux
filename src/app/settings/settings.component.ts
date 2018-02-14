@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormGroup, FormControl} from '@angular/forms';
 import {ApilifxService} from "../apilifx.service";
 
 @Component({
@@ -9,19 +9,41 @@ import {ApilifxService} from "../apilifx.service";
 })
 export class SettingsComponent implements OnInit {
 
-    apiTokenControl = new FormControl(localStorage.getItem('apiToken'), {
+    apiTokenControl = new FormControl(this._apilfx.getApiToken(), {
         updateOn: 'blur'
     });
 
     bulbsControl = new FormControl();
     bulbList = [];
-
-    playSceneControl = new FormControl();
     sceneList = [];
 
-    playColorControl = new FormControl();
+    playSettings = new FormGroup({
+        state: new FormControl(this._apilfx.getPlayLight().state),
+        scene: new FormControl(this._apilfx.getPlayLight().scene),
+        color: new FormControl(this._apilfx.getPlayLight().color, {
+            updateOn: 'blur'
+        })
+    });
+
+    pauseSettings = new FormGroup({
+        state: new FormControl(this._apilfx.getPauseLight().state),
+        scene: new FormControl(this._apilfx.getPauseLight().scene),
+        color: new FormControl(this._apilfx.getPauseLight().color, {
+            updateOn: 'blur'
+        })
+    });
+
+    timeoutSettings = new FormGroup({
+        state: new FormControl(this._apilfx.getTimeoutLight().state),
+        scene: new FormControl(this._apilfx.getTimeoutLight().scene),
+        color: new FormControl(this._apilfx.getTimeoutLight().color, {
+            updateOn: 'blur'
+        })
+    });
+
 
     constructor(private _apilfx: ApilifxService) {
+
         this.apiTokenControl.valueChanges.subscribe(
             (value: string) => {
                 _apilfx.setApiToken(value);
@@ -34,26 +56,23 @@ export class SettingsComponent implements OnInit {
                 _apilfx.setSelectedBulbs(value);
             }
         );
-        this.playSceneControl.valueChanges.subscribe(
+        this.playSettings.valueChanges.subscribe(
             (value: string) => {
-                this.setPlayScene(value)
+                this._apilfx.setPlayLight(value)
             }
         );
-        this.playColorControl.valueChanges.subscribe(
+        this.pauseSettings.valueChanges.subscribe(
             (value: string) => {
-                this.setPlayColor(value);
+                this._apilfx.setPauseLight(value)
+            }
+        );
+        this.timeoutSettings.valueChanges.subscribe(
+            (value: string) => {
+                this._apilfx.setTimeoutLight(value)
             }
         );
         this.getBulbs();
         this.getScenes();
-    }
-
-    setPlayScene(value) {
-        this._apilfx.setPlayScene(value);
-    }
-
-    setPlayColor(value) {
-        this._apilfx.setPlayColor(value);
     }
 
     getBulbs() {
@@ -75,6 +94,14 @@ export class SettingsComponent implements OnInit {
 
     sendPlayState() {
         this._apilfx.sendPlayState().subscribe();
+    }
+
+    sendPauseState() {
+        this._apilfx.sendPauseState().subscribe();
+    }
+
+    sendTimeoutState() {
+        this._apilfx.sendTimeoutState().subscribe();
     }
 
     ngOnInit() {

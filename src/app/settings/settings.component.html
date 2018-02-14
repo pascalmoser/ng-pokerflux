@@ -41,8 +41,8 @@
                 <mat-form-field class="mat-full-width">
                     <mat-select placeholder="Bulbs" [formControl]="bulbsControl" multiple>
                         <mat-option selecet value="all">All</mat-option>
-                        <mat-option *ngFor="let bulb of bulbList" [value]="bulb.id">{{bulb.label+'
-                            ('+bulb.group.name+')'}}
+                        <mat-option *ngFor="let bulb of bulbList" [value]="bulb.id">
+                            {{bulb.label+'('+bulb.group.name+')'}}
                         </mat-option>
                     </mat-select>
                     <mat-hint>Takes only effect by a color (Light Setting)</mat-hint>
@@ -54,45 +54,147 @@
 
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <h3>Play - Light Setting</h3>
+                        <h3>Play - Light Settings</h3>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
 
+                <form [formGroup]="playSettings">
 
-                <mat-radio-group>
+                    <mat-radio-group formControlName="state">
 
-                    <mat-radio-button class="radio-group-item" value="color" [checked]="true"  (change)="setPlayColor(playColorControl.value)">
-                        <h4>Color</h4>
-
-                        <mat-form-field class="mat-full-width">
-                            <input matInput type="color" value="#21A344" [formControl]="playColorControl">
-                        </mat-form-field>
-
-                    </mat-radio-button>
-
-                    <mat-radio-button class="radio-group-item" value="scene" (change)="setPlayScene(playSceneControl.value)">
-                        <mat-label>
-
-                            <h4>Scene</h4>
+                        <mat-radio-button class="radio-group-item" value="color">
+                            <h4>Color</h4>
 
                             <mat-form-field class="mat-full-width">
-                                <mat-select placeholder="Scene for Play" [formControl]="playSceneControl">
-                                    <mat-option *ngFor="let scene of sceneList" [value]="scene.uuid">{{scene.name}}
-                                    </mat-option>
-                                </mat-select>
+                                <input matInput type="color" formControlName="color">
                             </mat-form-field>
 
-                        </mat-label>
+                        </mat-radio-button>
 
-                    </mat-radio-button>
+                        <mat-radio-button class="radio-group-item" value="scene">
+                            <mat-label>
 
-                </mat-radio-group>
+                                <h4>Scene</h4>
+
+                                <mat-form-field class="mat-full-width">
+                                    <mat-select placeholder="Scene for Play" formControlName="scene">
+                                        <mat-option *ngFor="let scene of sceneList" [value]="scene.uuid">{{scene.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                            </mat-label>
+
+                        </mat-radio-button>
+
+                    </mat-radio-group>
+
+                </form>
 
                 <br/>
 
                 <button mat-button color="primary" (click)="sendPlayState()">Test Play Light Settings</button>
 
             </mat-expansion-panel>
+
+
+
+            <mat-expansion-panel>
+
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h3>Pause - Light Settings</h3>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <form [formGroup]="pauseSettings">
+
+                    <mat-radio-group formControlName="state">
+
+                        <mat-radio-button class="radio-group-item" value="color">
+                            <h4>Color</h4>
+
+                            <mat-form-field class="mat-full-width">
+                                <input matInput type="color" formControlName="color">
+                            </mat-form-field>
+
+                        </mat-radio-button>
+
+                        <mat-radio-button class="radio-group-item" value="scene">
+                            <mat-label>
+
+                                <h4>Scene</h4>
+
+                                <mat-form-field class="mat-full-width">
+                                    <mat-select placeholder="Scene for Play" formControlName="scene">
+                                        <mat-option *ngFor="let scene of sceneList" [value]="scene.uuid">{{scene.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                            </mat-label>
+
+                        </mat-radio-button>
+
+                    </mat-radio-group>
+
+                </form>
+
+                <br/>
+
+                <button mat-button color="primary" (click)="sendPauseState()">Test Pause Light Settings</button>
+
+            </mat-expansion-panel>
+
+
+            <mat-expansion-panel>
+
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h3>Timeout - Light Settings</h3>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <form [formGroup]="timeoutSettings">
+
+                    <mat-radio-group formControlName="state">
+
+                        <mat-radio-button class="radio-group-item" value="color">
+                            <h4>Color</h4>
+
+                            <mat-form-field class="mat-full-width">
+                                <input matInput type="color" formControlName="color">
+                            </mat-form-field>
+
+                        </mat-radio-button>
+
+                        <mat-radio-button class="radio-group-item" value="scene">
+                            <mat-label>
+
+                                <h4>Scene</h4>
+
+                                <mat-form-field class="mat-full-width">
+                                    <mat-select placeholder="Scene for Play" formControlName="scene">
+                                        <mat-option *ngFor="let scene of sceneList" [value]="scene.uuid">{{scene.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                            </mat-label>
+
+                        </mat-radio-button>
+
+                    </mat-radio-group>
+
+                </form>
+
+                <br/>
+
+                <button mat-button color="primary" (click)="sendTimeoutState()">Test Timeout Light Settings</button>
+
+            </mat-expansion-panel>
+
+
             <mat-expansion-panel>
 
                 <mat-expansion-panel-header>
