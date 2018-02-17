@@ -4,7 +4,7 @@
         <span class="spacer"></span>
 
         <button mat-icon-button (click)="toggleTimer()" class="btn-white" aria-label="Play/Pause">
-            <mat-icon>{{timerState.on === true ? 'pause' : 'play_arrow'}}</mat-icon>
+            <mat-icon>{{game.state === 'play' ? 'pause' : 'play_arrow'}}</mat-icon>
         </button>
         <button mat-icon-button [matMenuTriggerFor]="menu" class="btn-white" aria-label="More">
             <mat-icon>more_vert</mat-icon>

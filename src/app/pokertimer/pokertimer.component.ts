@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable, Subscription} from 'rxjs/Rx';
-import {MatButtonModule, MatToolbarModule} from '@angular/material';
+import {ApilifxService} from "../apilifx.service";
 
 
 @Component({
@@ -40,7 +40,7 @@ export class PokertimerComponent implements OnInit {
         onBreakTime: false
     };
 
-    constructor() {
+    constructor(private _apilfx: ApilifxService) {
 
     }
 
@@ -58,17 +58,15 @@ export class PokertimerComponent implements OnInit {
             this.startTimer(this.timerState.pausedTicks / 60);
             this.timerState.pausedTicks = 0;
             this.game.state = 'play';
+            this._apilfx.sendPlayState().subscribe();
         } else {
             this.stopTimer();
             this.scheduler();
         }
-
     }
 
     private scheduler() {
-        console.log('scheduler');
         if (this.game.breakTime > 0 && !this.game.onBreakTime) {
-            console.log('break');
             this.breakTime();
         } else {
             this.game.state = 'play';
@@ -78,6 +76,7 @@ export class PokertimerComponent implements OnInit {
             this.game.breakTime = this.gameSchedule[this.game.scheduleIndex].breaktime;
             this.startTimer(this.gameSchedule[this.game.scheduleIndex].playtime);
             this.game.scheduleIndex++;
+            this._apilfx.sendPlayState().subscribe();
         }
     };
 
@@ -87,6 +86,7 @@ export class PokertimerComponent implements OnInit {
             this.game.state = 'timeout';
             this.startTimer(0.15);
             console.log('timeout');
+            this._apilfx.sendTimeoutState().subscribe();
         } else {
             this.scheduler();
         }
@@ -98,10 +98,12 @@ export class PokertimerComponent implements OnInit {
         this.game.state = 'pause';
         this.game.onBreakTime = true;
         console.log('breaktime');
+        this._apilfx.sendPauseState().subscribe();
     };
 
     private startTimer(minutes) {
         console.log('startTimer');
+
         this.timerState.on = true;
         let _ = this,
             timer = Observable
@@ -129,6 +131,7 @@ export class PokertimerComponent implements OnInit {
         this.timerState.pausedTicks = this.ticks;
         this.timerState.on = false;
         this.timer.unsubscribe();
+        this._apilfx.sendPauseState().subscribe();
     }
 
     private stopTimer() {
