@@ -39,10 +39,10 @@
                 </mat-form-field>
 
                 <mat-form-field class="mat-full-width">
-                    <mat-select placeholder="Bulbs" [formControl]="bulbsControl" multiple>
-                        <mat-option selecet value="all">All</mat-option>
+                    <mat-select [compareWith]="bulbsControlCompare" placeholder="Bulbs" [formControl]="bulbsControl" multiple [(ngModel)]="selectedBulbs">
+                        <mat-option value="all">All</mat-option>
                         <mat-option *ngFor="let bulb of bulbList" [value]="bulb.id">
-                            {{bulb.label+'('+bulb.group.name+')'}}
+                            {{bulb.label+' ('+bulb.group.name+')'}}
                         </mat-option>
                     </mat-select>
                     <mat-hint>Takes only effect by a color (Light Setting)</mat-hint>

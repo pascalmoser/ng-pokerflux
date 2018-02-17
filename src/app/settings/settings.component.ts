@@ -15,6 +15,7 @@ export class SettingsComponent implements OnInit {
 
     bulbsControl = new FormControl();
     bulbList = [];
+    selectedBulbs = [];
     sceneList = [];
 
     playSettings = new FormGroup({
@@ -51,11 +52,6 @@ export class SettingsComponent implements OnInit {
                 this.getScenes();
             }
         );
-        this.bulbsControl.valueChanges.subscribe(
-            (value: string) => {
-                _apilfx.setSelectedBulbs(value);
-            }
-        );
         this.playSettings.valueChanges.subscribe(
             (value: string) => {
                 this._apilfx.setPlayLight(value)
@@ -78,16 +74,30 @@ export class SettingsComponent implements OnInit {
     getBulbs() {
         this._apilfx.getBulbs()
             .subscribe(
-                bulbs => console.log(this.bulbList = bulbs),
-                error => console.log(error.error.error)
+                bulbs => this.setBulbs(bulbs),
+                // error => console.log(error.error.error)
             );
+    }
+
+    setBulbs(bulbs) {
+        this.bulbList = bulbs;
+        this.selectedBulbs = this._apilfx.getSelectedBulbs();
+        this.bulbsControl.valueChanges.subscribe(
+            (value: string) => {
+                this._apilfx.setSelectedBulbs(value);
+            }
+        );
+    }
+
+    bulbsControlCompare(c1, c2):boolean {
+        return c1 && c2 ? c1 === c2 : c1 === c2;
     }
 
     getScenes() {
         this._apilfx.getScenes()
             .subscribe(
-                scenes => console.log(this.sceneList = scenes),
-                error => console.log(error.error.error)
+                scenes => this.sceneList = scenes,
+                // error => console.log(error.error.error)
             );
     }
 

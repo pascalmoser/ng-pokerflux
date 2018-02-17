@@ -12,7 +12,8 @@ export class ApilifxService {
             'Authorization': 'Bearer ' + this.apiToken
         })
     };
-    private selectedBulbs = [];
+    private selectedBulbs = localStorage.getItem('selectedBulbs') ?
+        JSON.parse(localStorage.getItem('selectedBulbs')) : ['All'];
     private playLight = {
         'state': localStorage.getItem('playState') ? localStorage.getItem('playState') : 'color',
         'scene': localStorage.getItem('playScene'),
@@ -38,7 +39,6 @@ export class ApilifxService {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + this.apiToken
         });
-        console.log(this.httpOptions);
         localStorage.setItem('apiToken', apiToken);
     }
 
@@ -48,11 +48,14 @@ export class ApilifxService {
 
     setSelectedBulbs(bulbs) {
         this.selectedBulbs = bulbs;
+        localStorage.setItem('selectedBulbs', JSON.stringify(bulbs));
+    }
+
+    getSelectedBulbs() {
+        return this.selectedBulbs;
     }
 
     setPlayLight(form) {
-        console.log(form);
-        console.log(form.scene);
         this.playLight.state = form.scene;
         this.playLight.color = form.color;
         this.playLight.scene = form.scene;
@@ -111,13 +114,14 @@ export class ApilifxService {
     sendPlayState(): any {
         let url: string;
         let data = {};
+        let selector = this.selectedBulbs.indexOf('all') !== -1 ? 'all' : this.selectedBulbs.join(',');
 
-        if(this.playLight.state == 'scene') {
-            url = 'https://api.lifx.com/v1/scenes/scene_id:'+this.playLight.scene+'/activate';
+        if (this.playLight.state == 'scene') {
+            url = 'https://api.lifx.com/v1/scenes/scene_id:' + this.playLight.scene + '/activate';
             data = {};
         } else {
-            url = 'https://api.lifx.com/v1/lights/all/state';
-            data = {'color':this.playLight.color}
+            url = 'https://api.lifx.com/v1/lights/' + selector + '/state';
+            data = {'color': this.playLight.color, 'power' : 'on'}
         }
 
         return this.sendPut(url, data);
@@ -127,13 +131,16 @@ export class ApilifxService {
     sendPauseState(): any {
         let url: string;
         let data = {};
+        let selector = this.selectedBulbs.indexOf('all') !== -1 ? 'all' : this.selectedBulbs.join(',');
 
-        if(this.pauseLight.state == 'scene') {
-            url = 'https://api.lifx.com/v1/scenes/scene_id:'+this.pauseLight.scene+'/activate';
+        console.log(selector);
+
+        if (this.pauseLight.state == 'scene') {
+            url = 'https://api.lifx.com/v1/scenes/scene_id:' + this.pauseLight.scene + '/activate';
             data = {};
         } else {
-            url = 'https://api.lifx.com/v1/lights/all/state';
-            data = {'color':this.pauseLight.color}
+            url = 'https://api.lifx.com/v1/lights/' + selector + '/state';
+            data = {'color': this.pauseLight.color, 'power' : 'on'}
         }
 
         return this.sendPut(url, data);
@@ -142,19 +149,21 @@ export class ApilifxService {
     sendTimeoutState(): any {
         let url: string;
         let data = {};
+        let selector = this.selectedBulbs.indexOf('all') !== -1 ? 'all' : this.selectedBulbs.join(',');
 
-        if(this.timeoutLight.state == 'scene') {
-            url = 'https://api.lifx.com/v1/scenes/scene_id:'+this.timeoutLight.scene+'/activate';
+        if (this.timeoutLight.state == 'scene') {
+            url = 'https://api.lifx.com/v1/scenes/scene_id:' + this.timeoutLight.scene + '/activate';
             data = {};
         } else {
-            url = 'https://api.lifx.com/v1/lights/all/state';
-            data = {'color':this.timeoutLight.color}
+            url = 'https://api.lifx.com/v1/lights/' + selector + '/state';
+            data = {'color': this.timeoutLight.color, 'power' : 'on'}
         }
 
         return this.sendPut(url, data);
     }
 
-    sendPut(url, data):any {
+    sendPut(url, data): any {
+        console.log(url, data);
         return this.http.put(
             url,
             JSON.stringify(data),
