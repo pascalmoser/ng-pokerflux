@@ -22,10 +22,7 @@
 
     </mat-toolbar>
 
-    <h1>
-        <small>POKER</small>
-        FLUX
-    </h1>
+    <h1><span><small>POKER</small>FLUX</span></h1>
 
     <div class="pt-timer">
         <span class="pt-minutes">{{pad(minutesDisplay)}}</span>
@@ -37,17 +34,5 @@
         <span>{{game.smallBlind}}</span> <span class="pt-blind-sep">blinds</span> <span>{{game.bigBlind}}</span>
         <div class="pt-gamestate" ng-if="game.state !== 'play'">{{game.state}}</div>
     </div>
-
-    <p class="pt-debug">
-        game: {{game.state}}
-        <br/>
-        ticks: {{ticks}}
-        <br/>
-        <a href="#" (click)="toggleTimer()">Start</a>
-        <br/>
-        <a href="#" (click)="pauseTimer()">Pause</a>
-        <br/>
-        <a href="#" (click)="stopTimer()">Stop</a>
-    </p>
 
 </div>

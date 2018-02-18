@@ -17,7 +17,8 @@ import {
     MatInputModule,
     MatRadioModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSidenavModule
 } from '@angular/material';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -54,7 +55,8 @@ import {ApilifxService} from "./apilifx.service";
         MatInputModule,
         MatRadioModule,
         MatOptionModule,
-        MatSelectModule
+        MatSelectModule,
+        MatSidenavModule
     ],
     providers: [ApilifxService],
     bootstrap: [AppComponent]

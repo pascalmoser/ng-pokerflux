@@ -6,7 +6,6 @@
 }
 
 #stars {
-    border-radius: 50%;
     width: 1px;
     height: 1px;
     background: transparent;
@@ -14,7 +13,6 @@
     animation: animStar 50s linear infinite;
 }
 #stars:after {
-    border-radius: 50%;
     content: " ";
     position: absolute;
     top: 2000px;
